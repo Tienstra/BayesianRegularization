@@ -1,1 +1,1 @@
-A place to uplaod drafts. 
+A place to upload drafts. 
