@@ -1,1 +1,1 @@
-# BayesianRregularization
+# BayesianRegularization
