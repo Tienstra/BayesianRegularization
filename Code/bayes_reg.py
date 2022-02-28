@@ -4,6 +4,10 @@
 Created on Wed Jan  5 11:41:17 2022
 
 @author: maiatienstra
+
+Bayesian Regularization 
+Master Thesis Project Modules
+28 February 2022
 """
 
 
@@ -13,6 +17,7 @@ from scipy.sparse import dia_matrix
 from scipy.sparse.linalg import cg
 import pandas as pd
 import seaborn as sns
+
 
 
 
@@ -170,7 +175,7 @@ def compute_gradient(A,L,beta,alpha,x,y,a_0,a_1,b_0,b_1):
 
 
 
-def Algorithm1(A,L,y_delta,hyper_priors = [1 + 1e-6, 1e-6, 1 + 1e-6, 1e-6], niter=100000,tol=1e-8, print_res=False):
+def Algorithm1(A,L,y_delta,hyper_priors = [1 + 1e-6, 1e-6, 1 + 1e-6, 1e-6], niter=10000,tol=1e-5, print_res=False):
     
     """
     Implements method 1. 
@@ -190,7 +195,7 @@ def Algorithm1(A,L,y_delta,hyper_priors = [1 + 1e-6, 1e-6, 1 + 1e-6, 1e-6], nite
         DESCRIPTION. The default is 100000.
     
     tol : integer, optional
-        DESCRIPTION. The default is 1e-8.
+        DESCRIPTION. The default is 1e-5.
         
     print_res : Boolean, optional
         DESCRIPTION. The default FALSE. 
@@ -294,7 +299,7 @@ def Algorithm1(A,L,y_delta,hyper_priors = [1 + 1e-6, 1e-6, 1 + 1e-6, 1e-6], nite
 
 
 
-def Algorithm2(A,L,y_delta, mu_a = 1e-3,mu_b=1e-3, niter=100000,tol=1e-8,print_res=False):
+def Algorithm2(A,L,y_delta, mu_a = 1e-3,mu_b=1e-3, niter=10000,tol=1e-5,print_res=False):
     
     """
     Implements method 2. 
@@ -314,7 +319,7 @@ def Algorithm2(A,L,y_delta, mu_a = 1e-3,mu_b=1e-3, niter=100000,tol=1e-8,print_r
         DESCRIPTION. The default is 100000.
     
     tol : integer, optional
-        DESCRIPTION. The default is 1e-8.
+        DESCRIPTION. The default is 1e-5.
         
     print_res : Boolean, optional
         DESCRIPTION. The default FALSE. 
@@ -417,7 +422,7 @@ def Algorithm2(A,L,y_delta, mu_a = 1e-3,mu_b=1e-3, niter=100000,tol=1e-8,print_r
 
 
 
-def Algorithm3(A, L, y_delta, mu=1e-3, niter=100000,tol=1e-8,print_res=False):
+def Algorithm3(A, L, y_delta, mu=1e-3, niter=10000,tol=1e-5,print_res=False):
     
     """
     Implements method 3. 
@@ -431,7 +436,7 @@ def Algorithm3(A, L, y_delta, mu=1e-3, niter=100000,tol=1e-8,print_res=False):
     y_delta : an array (y_0,....,y_n).
     
     mu : integer, optional
-        DESCRIPTION. The default is 1e-7.
+        DESCRIPTION. The default is 1e-5.
     
     niter : integer, optional
         DESCRIPTION. The default is 100000.
@@ -541,7 +546,7 @@ def Algorithm3(A, L, y_delta, mu=1e-3, niter=100000,tol=1e-8,print_res=False):
 
 
 
-def Algorithm4(A,L, y_delta,niter=100000,tol=1e-8,print_res=False):
+def Algorithm4(A,L, y_delta,niter=10000,tol=1e-5,print_res=False):
     
     """  
     Implements a modified method 1, where instead of using closed form soltuion
@@ -559,7 +564,7 @@ def Algorithm4(A,L, y_delta,niter=100000,tol=1e-8,print_res=False):
         DESCRIPTION. The default is 100000.
     
     tol : integer, optional
-        DESCRIPTION. The default is 1e-8.
+        DESCRIPTION. The default is 1e-5.
         
     print_res : Boolean, optional
         DESCRIPTION. The default FALSE. 
@@ -744,31 +749,29 @@ def plot_estimates(df,name):
     """
     fig,ax = plt.subplots(2,2)
     ax[0,0].plot(np.arange(len(df['alpha'].to_numpy())),df['alpha'].to_numpy())
-    ax[0,0].set_xscale('log')
     ax[0,0].set_title('alpha')
-    
     
     ax[0,1].plot(np.arange(len(df['beta'].to_numpy())),df['beta'].to_numpy())
     ax[0,1].set_title('beta')
-    ax[0,1].set_xscale('log')
+    # ax[0,1].set_xscale('log')
     
     ax[1,0].plot(np.arange(len(df['lambda'].to_numpy())),df['lambda'].to_numpy())
     ax[1,0].set_title('lambda')
-    ax[1,0].set_xscale('log')
+    # ax[1,0].set_xscale('log')
     
     ax[1,1].plot(np.arange(len(df['x_norm'].to_numpy())),df['x_norm'].to_numpy())
     ax[1,1].set_title('x_norm')
-    ax[1,1].set_xscale('log')
+    # ax[1,1].set_xscale('log')
     
     
-# =============================================================================
-#     
-#     if (df.shape[0]-1) > 10:
-#         ax[0,0].set_xscale('log')
-#         ax[0,1].set_xscale('log')
-#         ax[1,0].set_xscale('log')
-#         ax[1,1].set_xscale('log')
-# =============================================================================
+    
+    
+    if (df.shape[0]-1) > 10:
+        ax[0,0].set_xscale('log')
+        ax[0,1].set_xscale('log')
+        ax[1,0].set_xscale('log')
+        ax[1,1].set_xscale('log')
+    
     
     fig.tight_layout()
     
@@ -798,7 +801,7 @@ def getObj(A,L,y_delta,alpha, beta):
 
     Returns
     -------
-    obj : a real number. 
+    obj_func : a real number. 
         DESCRIPTION. The value of the objective function given alpha, beta, fixing x.
 
     """
@@ -813,9 +816,9 @@ def getObj(A,L,y_delta,alpha, beta):
     x_hat = np.linalg.solve(A.T@A + (beta/alpha)*L.T@L, A.T@y_delta)
     
     
-    obj = J(A,L,x_hat,alpha,beta,y_delta,a_0,a_1,b_0,b_1)
+    obj_func = J(A,L,x_hat,alpha,beta,y_delta,a_0,a_1,b_0,b_1)
 
-    return obj
+    return obj_func
 
 
 
@@ -912,7 +915,7 @@ def getObj(A,L,y_delta,alpha, beta):
 
 
 
-def plot_contour(A,L, y_delta, df, name ,ns=50, ranges=[0.5,150,0.01,10] ):
+def plot_contour(A,L, y_delta, df, name ,ns=50, ranges=[0.5,150,0.01,10],save=True ):
    
 
     alpha_hat = df['alpha'].to_numpy()
@@ -959,6 +962,8 @@ def plot_contour(A,L, y_delta, df, name ,ns=50, ranges=[0.5,150,0.01,10] ):
             #print(beta_hat[i], alpha_hat[i])
         #axs.legend()
         fig.tight_layout()
-
-
-
+        
+    if save:
+        fig.savefig(name+'_contour.jpeg',dpi=300)
+    
+    
