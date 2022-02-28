@@ -6,5 +6,5 @@ In this thesis we discuss the theory behind the regularizing Tikhonov functional
 ### Remarks
 
 - The paper can be found in the Thesis directory. 
-- The Notebook displaying the results discussed in section 6 of the thesis can be found in the Notebooks directory.
+- The Notebook displaying the results discussed in Chapter 6 of the thesis can be found in the Notebooks directory.
 - The Python code used in the simulation study can be found in the Code directory. 
